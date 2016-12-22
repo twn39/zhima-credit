@@ -1,0 +1,25 @@
+{
+    "name": "twn39/zhima",
+    "type": "library",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "tangweinan",
+            "email": "twn39@163.com"
+        }
+    ],
+    "require": {
+        "php": ">=5.5.9",
+        "guzzlehttp/guzzle": "~6.0"
+    }
+    ,
+    "require-dev": {
+        "friendsofphp/php-cs-fixer": "^1.12"
+    },
+    "autoload": {
+        "psr-4": {
+            "Monster\\Zhima\\": "src/"
+        }
+    }
+
+}
