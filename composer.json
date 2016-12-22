@@ -1,10 +1,11 @@
 {
     "name": "twn39/zhima",
+    "description": "zhima credit api. life is hard.",
     "type": "library",
     "license": "MIT",
     "authors": [
         {
-            "name": "tangweinan",
+            "name": "twn39",
             "email": "twn39@163.com"
         }
     ],
