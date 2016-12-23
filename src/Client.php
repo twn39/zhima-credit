@@ -4,6 +4,7 @@ namespace Monster\Zhima;
 
 use GuzzleHttp\ClientInterface;
 use Monster\Zhima\Exceptions\ZhimaException;
+use Monster\Zhima\Handlers\Authorize;
 use Monster\Zhima\Handlers\HandlerInterface;
 
 class Client
@@ -27,7 +28,7 @@ class Client
         return $this;
     }
 
-    public function fetch()
+    protected function buildQuery()
     {
         $queryData = [
             'app_id'   => $this->config->getAppId(),
@@ -41,6 +42,13 @@ class Client
         ksort($queryData);
 
         $queryString = http_build_query($queryData);
+
+        return $queryString;
+    }
+
+    public function fetch()
+    {
+        $queryString = $this->buildQuery();
 
         $response = $this->httpClient->request('POST', sprintf('%s?%s', self::REMOTE_URL, $queryString), [
             'form_params' => [
@@ -88,5 +96,15 @@ class Client
         $params = $this->handler->getParams();
 
         return RSA::sign($params, $this->config->getPrivateKey());
+    }
+
+    public function url()
+    {
+        if (!($this->handler instanceof Authorize)) {
+            throw new ZhimaException(sprintf('请传入 %s 对象的实例！', Authorize::class));
+        }
+        $url = sprintf('%s?%s&params=%s', self::REMOTE_URL, $this->buildQuery(), urlencode($this->getEncryptParams()));
+
+        return $url;
     }
 }
